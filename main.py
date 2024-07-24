@@ -1,72 +1,202 @@
 #
 # CGS 2060 – Spring Semester 2024
 #
-# CGS 2060 Homework #1 – Welcome To The Casino
+# CGS 2060 Homework #2 – Let’s Play Bingo!
 #
-# Dr. Jim Anderson
+# (Dennys Bach)
 #
-# Student Name: Dennys Bach
-#
-# Initialize variables that will be used in program
 
-badPerson1FirstName = "NORA"
-badPerson1LastName  = "JONES"
-badPerson2FirstName = "KENT"
-badPerson2LastName  = "PERKINS"
+import random
 
-vipPerson1FirstName = "CAROL"
-vipPerson1LastName  = "TURNER"
-#vipPerson1Level = "Silver"
-vipPerson2FirstName = "MICHELLE"
-vipPerson2LastName  = "UNSER"
-#vipPerson2Level = "Gold"
-vipPerson3FirstName = "PAMELA"
-vipPerson3LastName  = "MUELLER"
-#vipPerson3Level = "Platinum"
 
-Platinum = [vipPerson3FirstName, vipPerson3LastName]
-Gold = [vipPerson2FirstName, vipPerson2LastName]
-Silver = [vipPerson1FirstName, vipPerson1LastName]
+Generated = 0
+global Bingo
+#Create Lists
+CalledNums = []
+CalledNum = 0
+UsedCard = []
+BRow = []
+IRow = []
+NRow = []
+GRow = []
+ORow = []
+Bingo = 0
 
-BadList = [badPerson1FirstName, badPerson1LastName, badPerson2FirstName, badPerson2LastName]
-# Display welcome banner
-print("Welcome to the CGS 2060 Casino!")
-print()
+#Loop to generate a called number
+def Caller():
+  CalledNum = random.randint(1,76)
+  if CalledNum not in CalledNums:
+    CalledNums.append(CalledNum)
+    print("The number is:")
+    print()
+    print("         , - ~ ~ ~ - ,")
+    print("     , '               ' ,")
+    print("   ,                       ,")
+    print("  ,                         ,")
+    print(" ,                           ,")
+    print(" ,           ",CalledNum,"            ,")
+    print(" ,                           ,")
+    print("  ,                         ,")
+    print("   ,                       ,")
+    print("     ,                  , '")
+    print("        ' - , _ _ _ ,  '")
+    return CalledNum
+  else:
+    Caller()
 
-# Calculate if the guest is old enough to enter the casino
-Age = input("Please enter the age of the customer: ")
+#Loop to check numbers on card
+def CardCheck():
+  CalledNum = Caller()
+  x = 0
+  if CalledNum in BRow:
+    x = BRow.index(CalledNum)
+    BRow.pop(x)
+    BRow.insert(x,"x")
+    print("You got one!")
 
-# Check to see if the guest is at least 21 years old
-if int(Age) > 21:
-  FirstName = input("Please enter your first name: ").upper()
-  LastName = input("Please enter your last name: ").upper()
-  # Check to see if guest is on the forbidden list
-  if FirstName and LastName not in BadList:
+  elif CalledNum in IRow:
+    x = IRow.index(CalledNum)
+    IRow.pop(x)
+    IRow.insert(x,"x")
+    print("You got one!")
+  elif CalledNum in NRow:
+    x = NRow.index(CalledNum)
+    NRow.pop(x)
+    NRow.insert(x,"x")
+    print("You got one!")
 
-    # Guest is at least 21 and is NOT on the forbidden list
-
-    # Check for VIP #1 casino member
-    if FirstName and LastName in Platinum:
-      print(f"Welcome to the Casino {FirstName} {LastName}")
-      print("Its a pleasure to see you today! I see you are a Platinum member!")
-      print("Here are the 75 tokens.")
-
-    # Check for VIP #2 casino member
-    elif FirstName and LastName in Gold:
-      print(f"Welcome to the Casino {FirstName} {LastName}")
-      print("I see you are a Gold Member, Welcome back! Here are your 50 tokens.")
-
-    # Check for VIP #3 casino member
-    elif FirstName and LastName in Silver:
-      print(f"Welcome to the Casino {FirstName} {LastName}")
-      print("Good Luck today! Here are your 25 tokens.")
-
-    else:
-      print("Your good to go")
+  elif CalledNum in GRow:
+    x = GRow.index(CalledNum)
+    GRow.pop(x)
+    GRow.insert(x,"x")
+    print("You got one!")
+  elif CalledNum in ORow:
+    x = ORow.index(CalledNum)
+    ORow.pop(x)
+    ORow.insert(x,"x")
+    print("You got one!")
 
   else:
-    print("Apologies, but you may not enter.")
-# Guest is not 21
-else:
-  print("You are not old enough, GoodBye!")
-  exit
+    print("Let's try again!")
+
+#Loop to Check for Bingo
+def BingoCheck():
+  Bingo = 0
+
+  BCol = [BRow[0],IRow[0],NRow[0],GRow[0],ORow[0]]
+  ICol = [BRow[1],IRow[1],NRow[1],GRow[1],ORow[1]]
+  NCol = [BRow[2],IRow[2],NRow[2],GRow[2],ORow[2]]
+  GCol = [BRow[3],IRow[3],NRow[3],GRow[3],ORow[3]]
+  OCol = [BRow[4],IRow[4],NRow[4],GRow[4],ORow[4]]
+  VertL= [BRow[0],IRow[1],NRow[2],GRow[3],ORow[4]]
+  VertR= [BRow[4],IRow[3],NRow[2],GRow[1],ORow[0]]
+
+  for Column in range(5):
+    if BCol.count("x") == 5:
+      Bingo = 1
+    elif ICol.count("x") == 5:
+      Bingo = 1
+    elif NCol.count("x") == 5:
+      Bingo = 1
+    elif GCol.count("x") == 5:
+      Bingo = 1
+    elif OCol.count("x") == 5:
+      Bingo = 1
+    elif VertL.count("x") == 5:
+      Bingo = 1
+    elif VertR.count("x") == 5:
+      Bingo = 1
+    elif BRow.count("x") == 5:
+      Bingo = 1
+    elif IRow.count("x") == 5:
+      Bingo = 1
+    elif NRow.count("x") == 5:
+      Bingo = 1
+    elif GRow.count("x") == 5:
+      Bingo = 1
+    elif ORow.count("x") == 5:
+      Bingo = 1
+
+  if Bingo == 1:
+    print()
+    print("Congratulations you got Bingo!")
+    print()
+    start()
+
+#Loop to generate Bingo Card
+def BingoCard():
+  global Card
+
+  while len(BRow) < 5:
+    Generated = random.randint(1,76)
+    if Generated not in UsedCard:
+        BRow.append(Generated)
+        UsedCard.append(Generated)
+
+  while len(IRow) < 5:
+    Generated = random.randint(1,76)
+    if Generated not in UsedCard:
+        IRow.append(Generated)
+        UsedCard.append(Generated)
+
+  #Adds the Freebie space in the middle of the card
+  while len(NRow) < 5:
+    if len(NRow) == 2:
+        NRow.append("x")
+        continue
+
+    Generated = random.randint(1,76)
+    if Generated not in UsedCard:
+        NRow.append(Generated)
+        UsedCard.append(Generated)
+
+  while len(GRow) < 5:
+    Generated = random.randint(1,76)
+    if Generated not in UsedCard:
+        GRow.append(Generated)
+        UsedCard.append(Generated)
+
+  while len(ORow) < 5:
+    Generated = random.randint(1,76)
+    if Generated not in UsedCard:
+        ORow.append(Generated)
+        UsedCard.append(Generated)
+
+  #Combine Bingo Card
+  Card = [BRow,IRow,NRow,GRow,ORow]
+
+#loop for the game
+def main():
+  print()
+
+  #Call the loop for the called number
+  while Bingo != 1:
+    print("Your Bingo Card:")
+    print(Card[0])
+    print(Card[1])
+    print(Card[2])
+    print(Card[3])
+    print(Card[4])
+    print()
+    #x = input("Press enter to continue:")
+    CardCheck()
+    #x = input("Press enter to continue:")
+    BingoCheck()
+
+#Loop to start game or exit
+def start():
+  print("Welcome to Bingo!")
+  Game = input("Would you like to play? ")
+  print("Please note if you receive an error, you lose.")
+  if Game.upper() == "Y":
+    BingoCard()
+    main()
+
+  elif Game.upper() == "N":
+    print("Exiting Game!")
+    exit
+
+#Game
+start()
+
+
